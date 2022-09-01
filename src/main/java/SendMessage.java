@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public class SendMessage {
     private volatile static SendMessage singTon = null;
-    private String host = "smtp.qq.cpm";
+    private String host = "smtp.qq.com";
     private String user = "2978086497";
     private String sender = Reference.EMAIL;
     private String key = "ekkoxewokvgodhea";

@@ -4,8 +4,6 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Random;
@@ -16,44 +14,94 @@ import java.util.Random;
  */
 public class Main {
     private static final String Url = "https://xiaobei.yinghuaonline.com/xiaobei-api/";
+    static Thread thread1;
+    static Thread thread2;
+    static Thread thread3;
 
     public static void main(String[] args) {
-        Reference.init(0); // 先初始化一遍
-        // 这里先让线程启动
-        Thread thread1;
-        Thread thread2;
+        if (!Reference.init(0)) {
+            // 先初始化一遍
+            SavaLogs.ERR = "配置文件异常";
+            System.out.println("配置文件异常");
+            return;
+        }
         {
             // 发送消息的线程
             thread1 = new Thread(() -> {
-                SendMessage sendMessage = SendMessage.getInstance();
-                sendMessage.setReceiver(Reference.ACCEPT_EMAIL);
-                if (Reference.MSG != null && Reference.MSG.length() != 0) {
-                    sendMessage.send_email(Reference.ACCEPT_EMAIL);
-                    Reference.MSG = null;
+                while (true) {
+                    synchronized (Main.class) {
+                        System.out.println("推送线程运行");
+                        System.out.println("保存日志进程运行");
+                        SavaLogs savaLogs = SavaLogs.getInstance();
+                        SendMessage sendMessage = SendMessage.getInstance();
+                        sendMessage.setReceiver(Reference.ACCEPT_EMAIL);
+                        if (Reference.MSG != null && Reference.MSG.length() != 0) {
+                            sendMessage.send_email(Reference.MSG);
+                            Reference.MSG = null;
+                        } else if (SavaLogs.ERR != null) {
+                            savaLogs.save();
+                            SavaLogs.ERR = null;
+                        } else {
+                            try {
+                                Main.class.wait();
+                                Main.class.notify();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
             });
         }
         {
             // 保存日志的线程
             thread2 = new Thread(() -> {
-                SavaLogs savaLogs = SavaLogs.getInstance();
-                if (SavaLogs.ERR != null) {
-                    savaLogs.save();
-                    SavaLogs.ERR = null;
+                while (true) {
+                    synchronized (Main.class) {
+                        if (Reference.MSG != null && SavaLogs.ERR != null) {
+                            try {
+                                Main.class.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Main.class.notify();
+                        }
+                    }
                 }
             });
         }
-        // 先开启线程
-
+        {
+            thread3 = new Thread(() -> {
+                System.out.println("线程运行");
+                while (true) {
+                    synchronized (Main.class) {
+                        if (SavaLogs.ERR != null && Reference.MSG != null) {
+                            Main.class.notify();
+                            try {
+                                Main.class.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            });
+            thread3.start();
+        }
+        thread1.start();
+        thread2.start();
         int count1 = 0;
         int count2 = 0;
         Random random = new Random();
         for (int i = 0; i < Reference.LENGTH; i++) {
+            SendMessage sendMessage = SendMessage.getInstance();
             String s;
             if (!xiaobei(i)) {
                 count2++;
                 s = "用户 " + Reference.USERNAME + " 失败!";
                 SavaLogs.ERR = s;
+                sendMessage.setReceiver(Reference.ACCEPT_EMAIL);
+                sendMessage.send_email(s);
                 System.out.println(s);
                 System.out.printf("已失败 %d 人, 还剩 %d 人\n", count2, Reference.LENGTH - 1 - i);
             } else {
@@ -62,11 +110,22 @@ public class Main {
                 System.out.println(s);
                 System.out.printf("已成功 {%d 人, 还剩 %d 人\n", count1, Reference.LENGTH - 1 - i);
             }
+            if (i == Reference.LENGTH - 1) {
+                thread1.stop();
+                thread2.stop();
+                thread3.stop();
+                return;
+            }
         }
     }
 
     public static boolean xiaobei(int index) {
-        Reference.init(index);
+        if (!Reference.init(index)) {
+            // 先初始化一遍
+            SavaLogs.ERR = "配置文件异常";
+            System.out.println("配置文件异常");
+            return false;
+        }
         String username = Reference.USERNAME;
         String password = Reference.PASSWORD;
         if (username == null || username.length() == 0 || password == null || password.length() == 0) {
@@ -97,7 +156,7 @@ public class Main {
         String accept = jsonObject.get("accept").getAsString();
         String acceptLanguage = jsonObject.get("accept-language").getAsString();
         String acceptEncoding = jsonObject.get("accept-encoding").getAsString();
-        String contentType = "application/json;charset=UTF-8";
+        String contentType = jsonObject.get("content-type").getAsString();
         String authorization;
         try {
             connection = (HttpURLConnection) new URL(captchaUrl).openConnection();
@@ -111,6 +170,8 @@ public class Main {
                 String temp = "验证码获取失败";
                 SavaLogs.ERR = LocalTime.now() + "-----" + temp + "\n";
                 Reference.MSG = temp;
+                System.out.println(temp);
+
                 return false;
             }
             in = connection.getInputStream();
@@ -126,6 +187,8 @@ public class Main {
             String temp = "网络或服务器问题";
             SavaLogs.ERR = LocalTime.now() + "-----" + temp + "\n";
             Reference.MSG = temp;
+            System.out.println(temp);
+
         } finally {
             try {
                 if (in != null) {
@@ -154,6 +217,9 @@ public class Main {
             String temp = "uuid获取失败, 应该是帐号不存在的问题";
             SavaLogs.ERR = LocalTime.now() + "-----" + temp + "\n";
             Reference.MSG = temp;
+            System.out.println(temp);
+            System.out.println(temp);
+
             return false;
         }
         String showCode = jsonObject.get("showCode").getAsString();
@@ -169,11 +235,11 @@ public class Main {
         password = m.toString();
         // 创建报文数据, 没错, 小北的报文就是如此简单
         String response =
-        "{" +
-                "\"username\":\"" + username + "\"," +
-                "\"password\":\"" + password + "\"," +
-                "\"showCode\":\"" + showCode + "\"," +
-                "\"uuid\":\"" + uuid + "\"" + "}";
+                "{" +
+                        "\"username\":\"" + username + "\"," +
+                        "\"password\":\"" + password + "\"," +
+                        "\"showCode\":\"" + showCode + "\"," +
+                        "\"uuid\":\"" + uuid + "\"" + "}";
 
         // 登录
         try {
@@ -189,7 +255,15 @@ public class Main {
             connection.connect();
             httpOut = connection.getOutputStream();
             httpOut.write(response.getBytes());
-            httpIn = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            InputStream inputStream;
+            try {
+                inputStream = connection.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("网络输入流获取失败");
+                return false;
+            }
+            httpIn = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = httpIn.readLine()) != null) {
                 res.append(line);
@@ -199,6 +273,8 @@ public class Main {
             String temp = "网络问题导致登录失败";
             SavaLogs.ERR = LocalTime.now() + "-----" + temp + "\n";
             Reference.MSG = temp;
+            System.out.println(temp);
+
             return false;
         } finally {
             try {
@@ -229,7 +305,7 @@ public class Main {
             String temp = "登录失败, 原因: " + msg;
             SavaLogs.ERR = LocalTime.now() + "-----" + temp + "\n";
             Reference.MSG = temp;
-            System.out.println(SavaLogs.ERR);
+            System.out.println(temp);
             return false;
         }
         authorization = jsonObject.get("token").getAsString();
@@ -238,6 +314,7 @@ public class Main {
                 String temp = "登录成功但是位置获取失败";
                 SavaLogs.ERR = LocalTime.now() + "-----" + temp + "\n";
                 Reference.MSG = temp;
+                System.out.println(temp);
                 return false;
             }
         }
@@ -267,6 +344,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
             String temp = "体温上报失败";
+            System.out.println(temp);
             SavaLogs.ERR = LocalTime.now() + "-----" + temp + "\n";
             Reference.MSG = temp;
             return false;
