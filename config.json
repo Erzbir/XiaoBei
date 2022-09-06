@@ -1,0 +1,52 @@
+{
+  "head": [
+    {
+      "user-agent": "",
+      "accept": "*/*",
+      "accept-language": "zh-cn",
+      "accept-encoding": "gzip, deflate, br",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    {
+      "user-agent": "",
+      "accept": "*/*",
+      "accept-language": "zh-cn",
+      "accept-encoding": "gzip, deflate, br",
+      "content-type": "application/json;charset=UTF-8"
+    },
+    {
+      "user-agent": "",
+      "accept": "*/*",
+      "accept-language": "zh-cn",
+      "accept-encoding": "gzip, deflate, br",
+      "content-type": "application/json;charset=UTF-8"
+    }
+  ],
+  "user": [
+    {
+      "username": "",
+      "password": "",
+      "location": "",
+      "email": "",
+      "place": ""
+    },
+    {
+      "username": "",
+      "password": "",
+      "location": "",
+      "place": "",
+      "email": ""
+    },
+    {
+      "username": "",
+      "password": "",
+      "location": "",
+      "place": "",
+      "email": ""
+    }
+  ],
+  "sender_email": "",
+  "key": "",
+  "host": ""
+}
+
