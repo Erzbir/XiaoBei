@@ -83,9 +83,9 @@ public class SendMessage {
         Session session = Session.getInstance(properties, null);
         MimeMessage message = new MimeMessage(session);
         try {
-            String nick="";
+            String nick = "";
             try {
-                nick=javax.mail.internet.MimeUtility.encodeText("自动打卡反馈");
+                nick = javax.mail.internet.MimeUtility.encodeText("自动打卡反馈");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

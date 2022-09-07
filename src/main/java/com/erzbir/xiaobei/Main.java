@@ -20,8 +20,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        try
-        {
+        try {
             JsonObject jsonObject;
             JsonArray userJsonArray = null;
             JsonArray headJsonArray = null;
@@ -43,7 +42,7 @@ public class Main {
                 headJson = headJsonArray.get(i).getAsJsonObject();
                 // 如果用户数量超出请求头数量则选其中一个随机的请求头
                 if (i > headJsonArray.size() - 1) {
-                    headJson = headJsonArray.get((int)(Math.random() * headJsonArray.size())).getAsJsonObject();
+                    headJson = headJsonArray.get((int) (Math.random() * headJsonArray.size())).getAsJsonObject();
                 }
                 executor.submit(new RunThread(userJson, headJson));
             }
