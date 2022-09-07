@@ -77,6 +77,7 @@ public class SendMessage {
         properties.setProperty("mail.host", host);
         properties.setProperty("mail.user", account);
         properties.setProperty("mail.from", sender);
+        properties.setProperty("From", "自动打卡");
         properties.put("mail.smtp.connectiontimeout", "3000");// 设置接收超时时间
         properties.put("mail.smtp.timeout", "3000");// 设置读取超时时间
         properties.put("mail.smtp.writetimeout", "3000");// 设置写入超时时间
