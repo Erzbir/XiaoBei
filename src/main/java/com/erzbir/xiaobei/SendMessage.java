@@ -77,15 +77,19 @@ public class SendMessage {
         properties.setProperty("mail.host", host);
         properties.setProperty("mail.user", account);
         properties.setProperty("mail.from", sender);
-        properties.setProperty("From", "自动打卡");
         properties.put("mail.smtp.connectiontimeout", "3000");// 设置接收超时时间
         properties.put("mail.smtp.timeout", "3000");// 设置读取超时时间
         properties.put("mail.smtp.writetimeout", "3000");// 设置写入超时时间
         Session session = Session.getInstance(properties, null);
         MimeMessage message = new MimeMessage(session);
         try {
-            InternetAddress from = new InternetAddress(sender);
-            message.setFrom(from);
+            String nick="";
+            try {
+                nick=javax.mail.internet.MimeUtility.encodeText("自动打卡反馈");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            message.setFrom(new InternetAddress(nick + "<" + sender + ">"));
             InternetAddress to = new InternetAddress(user.getACCEPT_EMAIL());
             message.setRecipient(Message.RecipientType.TO, to);
             message.setSubject("自动打卡反馈");
