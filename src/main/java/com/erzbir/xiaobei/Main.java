@@ -41,7 +41,7 @@ public class Main {
             for (int i = 0; i < Objects.requireNonNull(userJsonArray).size(); i++) {
                 userJson = userJsonArray.get(i).getAsJsonObject();
                 headJson = headJsonArray.get(i).getAsJsonObject();
-                // 如果用户数量超出请求头数量则选其中一个随机的请求头
+                // 如果用户数量超出请求头数量则随机选head中的一个请求头
                 if (i > headJsonArray.size() - 1) {
                     headJson = headJsonArray.get((int) (Math.random() * headJsonArray.size())).getAsJsonObject();
                 }
