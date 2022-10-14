@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,11 +26,11 @@ public class Main {
             JsonArray userJsonArray = null;
             JsonArray headJsonArray = null;
             try {
-                jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
-                //jsonObject = JsonParser.parseString(System.getenv("yourKey")).getAsJsonObject(); // 如果通过环境变量获取请解除此行注释并注释掉上一行, 再将"youKey"改成你设置的环境变量名
+                // jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
+                jsonObject = JsonParser.parseString(System.getenv("yourKey")).getAsJsonObject(); // 如果通过环境变量获取请解除此行注释并注释掉上一行, 再将"youKey"改成你设置的环境变量名
                 userJsonArray = jsonObject.get("user").getAsJsonArray();
                 headJsonArray = jsonObject.get("head").getAsJsonArray();
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             if (userJsonArray == null || headJsonArray == null) {
