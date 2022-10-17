@@ -146,7 +146,7 @@ public class Action {
             user.setPLACE(place = getPlace());
         }
         if (place == null || place.isEmpty()) {
-            System.out.println("获取位置信息失败");
+            // System.out.println("获取位置信息失败");
             saveLog(LocalTime.now() + user.getUSERNAME() + "获取位置信息失败");
             return null;
         }
@@ -202,7 +202,7 @@ public class Action {
                 String temp = user.getUSERNAME() + "验证码获取失败";
                 saveLog(LocalTime.now() + temp);
                 sendMessage.send_email(temp);
-                System.out.println(temp);
+                // System.out.println(temp);
                 return false;
             }
             in = connection.getInputStream();
@@ -218,7 +218,7 @@ public class Action {
             String temp = user.getUSERNAME() + "网络或服务器问题";
             saveLog(LocalTime.now() + temp);
             sendMessage.send_email(temp);
-            System.out.println(temp);
+            // System.out.println(temp);
 
         } finally {
             closeStream(connection, out, in);
@@ -235,7 +235,7 @@ public class Action {
             String temp = user.getUSERNAME() + "uuid获取失败, 应该是帐号不存在的问题";
             saveLog(LocalTime.now() + temp);
             sendMessage.send_email(temp);
-            System.out.println(temp);
+            // System.out.println(temp);
             return false;
         }
         showCode = jsonObject.get("showCode").getAsString();
@@ -273,7 +273,7 @@ public class Action {
             String temp = user.getUSERNAME() + "网络问题导致登录失败";
             saveLog(LocalTime.now() + "\t" + temp);
             sendMessage.send_email(temp);
-            System.out.println(temp);
+            // System.out.println(temp);
             return false;
         }
         // 成功 {"msg":"操作成功","code":200,"token":"xxxx"}
@@ -290,7 +290,7 @@ public class Action {
             String temp = user.getUSERNAME() + "登录失败, 原因: " + msg;
             saveLog(LocalTime.now() + "\t" + temp);
             sendMessage.send_email(temp);
-            System.out.println(temp);
+            // System.out.println(temp);
             return false;
         }
         authorization = jsonObject.get("token").getAsString();
@@ -308,11 +308,11 @@ public class Action {
     private boolean report() {
         healthJson = getHealth();
         if (healthJson == null || healthJson.isEmpty()) {
-            System.out.println(user.getUSERNAME() + "健康信息获取失败");
+            // System.out.println(user.getUSERNAME() + "健康信息获取失败");
             saveLog(LocalTime.now() + "\t" + user.getUSERNAME() + "健康信息获取失败");
             return false;
         }
-        System.out.println(user.getPLACE());
+        // System.out.println(user.getPLACE());
         HttpURLConnection connection;
         String res;
         try {
@@ -335,13 +335,13 @@ public class Action {
             String temp = user.getUSERNAME() + "打卡失败, 失败原因: " + msg;
             saveLog(LocalTime.now() + "\t" + temp);
             sendMessage.send_email(temp);
-            System.out.println(temp);
+            // System.out.println(temp);
             return false;
         }
         String temp = "打卡成功!!!" + msg;
         saveLog(LocalTime.now() + "\t" + user.getUSERNAME() + temp);
         sendMessage.send_email(temp);
-        System.out.println(temp);
+        // System.out.println(temp);
         return true;
     }
 
@@ -399,7 +399,7 @@ public class Action {
         if (!report()) {
             return false;
         }
-        System.out.println(user.getUSERNAME() + "操作完成");
+        // System.out.println(user.getUSERNAME() + "操作完成");
         return true;
     }
 
