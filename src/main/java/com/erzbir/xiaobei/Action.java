@@ -70,7 +70,7 @@ public class Action {
 
     /**
      * @return boolean
-     * @<code> 坐标为空则不执行, 如果位置为空则将Reference.PLACE修改成获取到的地址, 再将其赋给此类中的place </code>
+     * @<code> 坐标为空则不执行, 如果位置为空则根据坐标获取地址 </code>
      */
     private String getPlace() {
         StringBuilder result = new StringBuilder();
@@ -138,7 +138,7 @@ public class Action {
 
     /**
      * @return String
-     * @<code> 需要注意的是坐标和位置不为空才开始执行, 位置获取在logIn中获取, 生成json字符串并返回 </code>
+     * @<code> 需要注意的是坐标和位置不为空才开始执行 </code>
      */
     private String getHealth() {
         String place = user.getPLACE();
