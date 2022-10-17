@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
  * @Date: 2022/8/31 23:10
  * 获取地理位置, 上报信息, 登录等各种操作
  */
+
+// 获取坐标: https://api.xiaobaibk.com/api/map/
 public class Action {
     private static final String Url = "https://xiaobei.yinghuaonline.com/xiaobei-api/";
     private static final String captchaUrl = Url + "captchaImage"; // 验证码
