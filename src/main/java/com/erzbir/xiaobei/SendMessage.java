@@ -53,7 +53,20 @@ public class SendMessage {
      *
      */
     public void send_email(String content) {
-
+        System.out.println(this);
+        if (sender == null
+                || content == null
+                || sender.isEmpty()
+                || key == null
+                || key.isEmpty()
+                || user == null
+                || user.getACCEPT_EMAIL() == null
+                || user.getACCEPT_EMAIL().isEmpty()
+                || host == null
+                || host.isEmpty()) {
+            System.out.println("邮件推送必要属性为空");
+            return;
+        }
         String account = sender.substring(0, sender.indexOf("@"));
         if (account.isEmpty()) {
             System.out.println("邮箱服务帐号为空");
@@ -132,5 +145,15 @@ public class SendMessage {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    @Override
+    public String toString() {
+        return "SendMessage{" +
+                "user=" + user +
+                ", sender='" + sender + '\'' +
+                ", key='" + key + '\'' +
+                ", host='" + host + '\'' +
+                '}';
     }
 }
