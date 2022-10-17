@@ -30,6 +30,7 @@ public class Main {
                 jsonObject = JsonParser.parseString(System.getenv("YOUR_KEY")).getAsJsonObject(); // 如果通过环境变量获取请解除此行注释并注释掉上一行, 再将"youKey"改成你设置的环境变量名
                 userJsonArray = jsonObject.get("user").getAsJsonArray();
                 headJsonArray = jsonObject.get("head").getAsJsonArray();
+                System.out.println(jsonObject.getAsString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
