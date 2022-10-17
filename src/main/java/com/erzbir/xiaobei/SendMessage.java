@@ -25,11 +25,6 @@ public class SendMessage {
     private String key;
     private String host;
 
-    public SendMessage(User user) throws FileNotFoundException {
-        // 默认解析在config.json中的设置
-        this(user, new FileReader("config.json"));
-    }
-
     public SendMessage(User user, String sender, String key, String host) {
         this.user = user;
         this.sender = sender;
@@ -37,9 +32,7 @@ public class SendMessage {
         this.host = host;
     }
 
-    public SendMessage(User user, FileReader fileReader) {
-        JsonObject jsonObject;
-        jsonObject = JsonParser.parseReader(fileReader).getAsJsonObject();
+    public SendMessage(User user, JsonObject jsonObject) {
         if (jsonObject == null) {
             return;
         }
@@ -53,7 +46,6 @@ public class SendMessage {
      *
      */
     public void send_email(String content) {
-        System.out.println(this);
         if (sender == null
                 || content == null
                 || sender.isEmpty()

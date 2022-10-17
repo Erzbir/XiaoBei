@@ -16,13 +16,12 @@ import java.util.concurrent.Executors;
  * @Date: 2022/8/31 23:19
  */
 public class Main {
-
+    public static JsonObject jsonObject;
     static ExecutorService executor = Executors.newCachedThreadPool(); // 缓存线程池
 
 
     public static void main(String[] args) {
         try {
-            JsonObject jsonObject;
             JsonArray userJsonArray = null;
             JsonArray headJsonArray = null;
             try {

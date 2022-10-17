@@ -43,7 +43,7 @@ public class Action {
     public Action(User user, Head header) throws FileNotFoundException {
         this.user = user;
         this.header = header;
-        this.sendMessage = new SendMessage(user);
+        this.sendMessage = new SendMessage(user, Main.jsonObject);
         this.healthJson = null;
         this.showCode = null;
         this.authorization = null;
