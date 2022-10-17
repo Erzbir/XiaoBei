@@ -20,4 +20,7 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
       - name: runTask
+        env:
+          # 必填
+          KEY: ${{ secrets.KEY }}
         run: mvn compile exec:java -Dexec.mainClass="com.erzbir.xiaobei.Main"
