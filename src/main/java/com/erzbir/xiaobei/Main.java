@@ -28,7 +28,9 @@ public class Main {
             try {
                 // jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
                 jsonObject = JsonParser.parseString(System.getProperty("YOUR_KEY")).getAsJsonObject(); // 如果通过环境变量获取请解除此行注释并注释掉上一行, 再将"youKey"改成你设置的环境变量名
+                System.out.println(1);
                 userJsonArray = jsonObject.get("user").getAsJsonArray();
+                System.out.println(2);
                 headJsonArray = jsonObject.get("head").getAsJsonArray();
                 System.out.println(jsonObject.getAsString());
             } catch (Exception e) {
