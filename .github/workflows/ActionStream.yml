@@ -22,5 +22,5 @@ jobs:
       - name: runTask
         env:
           # 必填
-          KEY: ${{ secrets.KEY }}
+          YOUR_KEY: ${{ secrets.KEY }}
         run: mvn compile exec:java -Dexec.mainClass="com.erzbir.xiaobei.Main"
