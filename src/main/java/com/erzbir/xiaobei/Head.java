@@ -68,5 +68,14 @@ public class Head {
         this.contentType = contentType;
     }
 
-
+    @Override
+    public String toString() {
+        return "Head{" +
+                "userAgent='" + userAgent + '\'' +
+                ", accept='" + accept + '\'' +
+                ", acceptLanguage='" + acceptLanguage + '\'' +
+                ", acceptEncoding='" + acceptEncoding + '\'' +
+                ", contentType='" + contentType + '\'' +
+                '}';
+    }
 }

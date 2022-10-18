@@ -66,4 +66,15 @@ public class User {
     public void setACCEPT_EMAIL(String ACCEPT_EMAIL) {
         this.ACCEPT_EMAIL = ACCEPT_EMAIL;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "USERNAME='" + USERNAME + '\'' +
+                ", PASSWORD='" + PASSWORD + '\'' +
+                ", LOCATION='" + LOCATION + '\'' +
+                ", PLACE='" + PLACE + '\'' +
+                ", ACCEPT_EMAIL='" + ACCEPT_EMAIL + '\'' +
+                '}';
+    }
 }
