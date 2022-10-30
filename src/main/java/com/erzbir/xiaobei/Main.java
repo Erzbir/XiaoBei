@@ -6,8 +6,6 @@ import com.google.gson.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,10 +23,12 @@ public class Main {
             JsonArray userJsonArray = null;
             JsonArray headJsonArray = null;
             try {
-                // jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
-                jsonObject = JsonParser.parseString(System.getenv("YOUR_KEY")).getAsJsonObject(); // 如果通过环境变量获取请解除此行注释并注释掉上一行, 再将"youKey"改成你设置的环境变量名
-                userJsonArray = jsonObject.get("user").getAsJsonArray();
-                headJsonArray = jsonObject.get("head").getAsJsonArray();
+                jsonObject = JsonParser.parseString(System.getenv("YOUR_KEY")).getAsJsonObject();
+                if (jsonObject == null) {
+                    jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
+                }
+                userJsonArray = jsonObject.getAsJsonArray("user");
+                headJsonArray = jsonObject.getAsJsonArray("head");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -38,12 +38,14 @@ public class Main {
             JsonObject headJson;
             JsonObject userJson;
             // 这里用传参的形式创建并开启线程, 因为线程自己获取风险更大
-            for (int i = 0; i < Objects.requireNonNull(userJsonArray).size(); i++) {
+            for (int i = 0; i < userJsonArray.size(); i++) {
                 userJson = userJsonArray.get(i).getAsJsonObject();
-                headJson = headJsonArray.get(i).getAsJsonObject();
+                System.out.println(i);
                 // 如果用户数量超出请求头数量则随机选head中的一个请求头
-                if (i > headJsonArray.size() - 1) {
+                if (i >= headJsonArray.size()) {
                     headJson = headJsonArray.get((int) (Math.random() * headJsonArray.size())).getAsJsonObject();
+                } else {
+                    headJson = headJsonArray.get(i).getAsJsonObject();
                 }
                 executor.submit(new RunThread(userJson, headJson));
             }
