@@ -1,12 +1,16 @@
 package com.erzbir.xiaobei;
 
 import com.google.gson.JsonObject;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @Author: Erzbir
  * @Date: 2022/9/5 12:16
  * @<code> 请求头解析到这个类 </code>
  */
+@Setter
+@Getter
 public class Head {
     private String userAgent = null;
     private String accept = null;
@@ -25,47 +29,6 @@ public class Head {
         acceptEncoding = headJson.get("accept-encoding").getAsString();
         contentType = headJson.get("content-type").getAsString();
 
-    }
-
-
-    public String getUserAgent() {
-        return userAgent;
-    }
-
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
-    }
-
-    public String getAccept() {
-        return accept;
-    }
-
-    public void setAccept(String accept) {
-        this.accept = accept;
-    }
-
-    public String getAcceptLanguage() {
-        return acceptLanguage;
-    }
-
-    public void setAcceptLanguage(String acceptLanguage) {
-        this.acceptLanguage = acceptLanguage;
-    }
-
-    public String getAcceptEncoding() {
-        return acceptEncoding;
-    }
-
-    public void setAcceptEncoding(String acceptEncoding) {
-        this.acceptEncoding = acceptEncoding;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
     }
 
     @Override

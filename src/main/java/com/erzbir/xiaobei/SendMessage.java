@@ -1,7 +1,8 @@
 package com.erzbir.xiaobei;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -9,8 +10,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
@@ -19,6 +18,8 @@ import java.util.Properties;
  * @Date: 2022/9/1 18:05
  * @<code> 推送消息的类 </code>
  */
+@Setter
+@Getter
 public class SendMessage {
     private User user;
     private String sender;
@@ -105,38 +106,6 @@ public class SendMessage {
             }
         }
         System.out.println("邮件推送成功");
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.erzbir.xiaobei;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -22,6 +24,8 @@ import java.util.regex.Pattern;
  */
 
 // 获取坐标: https://api.xiaobaibk.com/api/map/
+@Getter
+@Setter
 public class Action {
     private static final String Url = "https://xiaobei.yinghuaonline.com/xiaobei-api/";
     private static final String captchaUrl = Url + "captchaImage"; // 验证码
@@ -398,11 +402,8 @@ public class Action {
         if (!logIn()) {
             return false;
         }
-        if (!report()) {
-            return false;
-        }
+        return report();
         // System.out.println(user.getUSERNAME() + "操作完成");
-        return true;
     }
 
 
@@ -433,22 +434,6 @@ public class Action {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Head getHeader() {
-        return header;
-    }
-
-    public void setHeader(Head header) {
-        this.header = header;
     }
 }
 
