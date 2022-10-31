@@ -29,7 +29,7 @@ GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下
 5. 如果不会提交github, 找个教程看就好
 
 $补充说明$:
-> 如果你不想创建私人仓库, 可以用在fork下来的本仓库 Settings->Secrets->Dependabot, 设置环境变量, 名字为 KEY(必须,
+> 如果你不想创建私人仓库, 可以用在fork下来的本仓库 Settings->Secrets->actions, 设置环境变量, 名字为 KEY(必须,
 > 会改就自己改名字),
 >
 > 做法: 将整个配置文件内容添加到刚刚设置的KEY
