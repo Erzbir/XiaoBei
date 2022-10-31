@@ -331,6 +331,8 @@ public class Action {
             temp = LocalTime.now() + "\t" + user.getUsername() + "打卡成功!!!" + msg;
         } finally {
             sendMessage.setMsg(temp);
+            System.out.println(user.toString());
+            System.out.println(header.toString());
         }
 
         // System.out.println(temp);
