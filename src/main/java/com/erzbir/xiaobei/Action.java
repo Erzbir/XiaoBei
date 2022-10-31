@@ -39,7 +39,7 @@ public class Action {
     // 以下是服务器返回内容, 用于POST操作
     private String showCode; // 通过verify获得
     private String uuid; // 通过verify获得
-    private String healthJson; // 建康信息报文
+    private String healthJson;  // 建康信息报文
     private String authorization; // 验证码通过login获得
     private SendMessage sendMessage; // 发送消息的类
 
