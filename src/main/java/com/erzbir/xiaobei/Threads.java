@@ -21,12 +21,12 @@ public class Threads {
     public FutureTask<Boolean> futureTask; // 通过futureTask.get()获取返回值
     Action action;
 
-    {
-        Threads threads = this;
+    public Threads(User user, Head head) {
+        action = new Action(user, head);
         Callable<Boolean> callable = () -> {
             login.join();
             getHealth.join();
-            return threads.action.report();
+            return action.report();
         };
         futureTask = new FutureTask<>(callable);
         verify = new Thread(() -> action.verify());
@@ -71,10 +71,6 @@ public class Threads {
                 e.printStackTrace();
             }
         });
-    }
-
-    public Threads(User user, Head head) {
-        action = new Action(user, head);
     }
 
     public boolean begin() throws ExecutionException, InterruptedException {
