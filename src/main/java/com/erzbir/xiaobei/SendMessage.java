@@ -25,13 +25,7 @@ public class SendMessage {
     private String sender;
     private String key;
     private String host;
-
-    public SendMessage(User user, String sender, String key, String host) {
-        this.user = user;
-        this.sender = sender;
-        this.key = key;
-        this.host = host;
-    }
+    private String msg;
 
     public SendMessage(User user, JsonObject jsonObject) {
         if (jsonObject == null) {
@@ -46,15 +40,14 @@ public class SendMessage {
     /**
      *
      */
-    public void send_email(String content) {
+    public void send_email() {
         if (sender == null
-                || content == null
                 || sender.isEmpty()
                 || key == null
                 || key.isEmpty()
                 || user == null
-                || user.getACCEPT_EMAIL() == null
-                || user.getACCEPT_EMAIL().isEmpty()
+                || user.getEmail() == null
+                || user.getEmail().isEmpty()
                 || host == null
                 || host.isEmpty()) {
             System.out.println("邮件推送必要属性为空");
@@ -84,10 +77,14 @@ public class SendMessage {
                 e.printStackTrace();
             }
             message.setFrom(new InternetAddress(nick + "<" + sender + ">"));
-            InternetAddress to = new InternetAddress(user.getACCEPT_EMAIL());
+            InternetAddress to = new InternetAddress(user.getEmail());
             message.setRecipient(Message.RecipientType.TO, to);
             message.setSubject("自动打卡反馈");
-            message.setContent(content, "text/plain;charset=UTF-8");
+            if (msg == null) {
+                System.out.println("推送信息为空");
+                return;
+            }
+            message.setContent(msg, "text/plain;charset=UTF-8");
             message.saveChanges();
             transport = session.getTransport();
             transport.connect(null, null, key);
@@ -101,6 +98,7 @@ public class SendMessage {
                 if (transport != null) {
                     transport.close();
                 }
+                msg = null;
             } catch (MessagingException e) {
                 e.printStackTrace();
             }

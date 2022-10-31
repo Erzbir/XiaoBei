@@ -1,10 +1,10 @@
 package com.erzbir.xiaobei;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,18 +20,16 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            JsonArray userJsonArray = null;
-            JsonArray headJsonArray = null;
-            try {
-                jsonObject = JsonParser.parseString(System.getenv("YOUR_KEY")).getAsJsonObject();
-                if (jsonObject == null) {
-                    jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
-                }
-                userJsonArray = jsonObject.getAsJsonArray("user");
-                headJsonArray = jsonObject.getAsJsonArray("head");
-            } catch (Exception e) {
-                e.printStackTrace();
+            JsonArray userJsonArray;
+            JsonArray headJsonArray;
+            String s = System.getenv("YOUR_KEY");
+            if (s == null) {
+                jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
+            } else {
+                jsonObject = JsonParser.parseString(s).getAsJsonObject();
             }
+            userJsonArray = jsonObject.getAsJsonArray("user");
+            headJsonArray = jsonObject.getAsJsonArray("head");
             if (userJsonArray == null || headJsonArray == null) {
                 return;
             }
@@ -40,7 +38,6 @@ public class Main {
             // 这里用传参的形式创建并开启线程, 因为线程自己获取风险更大
             for (int i = 0; i < userJsonArray.size(); i++) {
                 userJson = userJsonArray.get(i).getAsJsonObject();
-                System.out.println(i);
                 // 如果用户数量超出请求头数量则随机选head中的一个请求头
                 if (i >= headJsonArray.size()) {
                     headJson = headJsonArray.get((int) (Math.random() * headJsonArray.size())).getAsJsonObject();
@@ -63,31 +60,25 @@ public class Main {
      * @<code> 线程类, 每个用户的操作都是一个线程 </code>
      */
     private static class RunThread implements Runnable {
-        private User user; // 一个线程绑定一个用户
-        private Head header; // 一个线程绑定一个head
-
-        public RunThread() {
-
-        }
+        private final User user; // 一个线程绑定一个用户
+        private final Head header; // 一个线程绑定一个head
 
         public RunThread(JsonObject userJson, JsonObject headerJson) {
-            this.user = new User(userJson);
-            this.header = new Head(headerJson);
+            Gson gson = new Gson();
+            this.user = gson.fromJson(userJson, User.class);
+            this.header = gson.fromJson(headerJson, Head.class);
         }
 
         @Override
         public void run() {
-            Action action = null;
+            Threads threads;
+            threads = new Threads(user, header);
             try {
-                action = new Action(user, header);
-            } catch (FileNotFoundException e) {
+                if (threads.begin()) {
+                    System.out.println("上报成功");
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
-            }
-            if (action == null) {
-                return;
-            }
-            if (action.begin()) {
-                System.out.println("上报成功");
             }
         }
     }

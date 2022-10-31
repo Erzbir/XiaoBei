@@ -1,6 +1,5 @@
 package com.erzbir.xiaobei;
 
-import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,33 +11,20 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Head {
-    private String userAgent = null;
-    private String accept = null;
-    private String acceptLanguage = null;
-    private String acceptEncoding = null;
-    private String contentType = null;
-
-    public Head() {
-
-    }
-
-    public Head(JsonObject headJson) {
-        userAgent = headJson.get("user-agent").getAsString();
-        accept = headJson.get("accept").getAsString();
-        acceptLanguage = headJson.get("accept-language").getAsString();
-        acceptEncoding = headJson.get("accept-encoding").getAsString();
-        contentType = headJson.get("content-type").getAsString();
-
-    }
+    private String user_agent;
+    private String accept;
+    private String accept_language;
+    private String accept_encoding;
+    private String content_type;
 
     @Override
     public String toString() {
         return "Head{" +
-                "userAgent='" + userAgent + '\'' +
+                "userAgent='" + user_agent + '\'' +
                 ", accept='" + accept + '\'' +
-                ", acceptLanguage='" + acceptLanguage + '\'' +
-                ", acceptEncoding='" + acceptEncoding + '\'' +
-                ", contentType='" + contentType + '\'' +
+                ", acceptLanguage='" + accept_language + '\'' +
+                ", acceptEncoding='" + accept_encoding + '\'' +
+                ", contentType='" + content_type + '\'' +
                 '}';
     }
 }

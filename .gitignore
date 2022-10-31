@@ -10,5 +10,4 @@ target
 bat
 *.log
 *.txt
-
 config.json
