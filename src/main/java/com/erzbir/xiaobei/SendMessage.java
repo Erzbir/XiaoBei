@@ -98,6 +98,7 @@ public class SendMessage {
                 if (transport != null) {
                     transport.close();
                 }
+                properties.clear();
                 msg = null;
             } catch (MessagingException e) {
                 e.printStackTrace();
