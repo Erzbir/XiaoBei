@@ -83,7 +83,7 @@ public class Action {
         String jsonString;
         ByteArrayOutputStream out = null;
         InputStream in = null;
-        String[] lc = user.getLOCATION().split(",");
+        String[] lc = user.getLocation().split(",");
         String location = lc[1] + "," + lc[0];
         URL url;
         HttpURLConnection connection;
@@ -96,7 +96,7 @@ public class Action {
         }
         try {
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("user-agent", header.getUserAgent());
+            connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
             connection.connect();
         } catch (IOException e) {
@@ -147,17 +147,17 @@ public class Action {
      * @<code> 需要注意的是坐标和位置不为空才开始执行 </code>
      */
     private String getHealth() {
-        String place = user.getPLACE();
+        String place = user.getPlace();
         if (place == null || place.isEmpty()) {
-            user.setPLACE(place = getPlace());
+            user.setPlace(place = getPlace());
         }
         if (place == null || place.isEmpty()) {
             // System.out.println("获取位置信息失败");
-            saveLog(LocalTime.now() + user.getUSERNAME() + "获取位置信息失败");
+            saveLog(LocalTime.now() + user.getUsername() + "获取位置信息失败");
             return null;
         }
         Random random = new Random();
-        String[] lc = user.getLOCATION().split(",");
+        String[] lc = user.getLocation().split(",");
         BigDecimal bigDecimal = BigDecimal.valueOf(random.nextDouble(367, 372) / 10).setScale(1, RoundingMode.DOWN);
         String temperature = String.valueOf(bigDecimal);
         int rand = random.nextInt(1111, 9999);
@@ -199,13 +199,13 @@ public class Action {
             // 设置请求头, java设置请求头非常麻烦, 害
             connection = (HttpURLConnection) new URL(captchaUrl).openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("user-agent", header.getUserAgent());
+            connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("acceptLanguage", header.getAcceptLanguage());
-            connection.setRequestProperty("acceptEncoding", header.getAcceptEncoding());
+            connection.setRequestProperty("acceptLanguage", header.getAccept_language());
+            connection.setRequestProperty("acceptEncoding", header.getAccept_encoding());
             connection.connect();
             if (connection.getResponseCode() != 200) {
-                String temp = user.getUSERNAME() + "验证码获取失败";
+                String temp = user.getUsername() + "验证码获取失败";
                 saveLog(LocalTime.now() + temp);
                 sendMessage.send_email(temp);
                 // System.out.println(temp);
@@ -221,7 +221,7 @@ public class Action {
             jsonString = out.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            String temp = user.getUSERNAME() + "网络或服务器问题";
+            String temp = user.getUsername() + "网络或服务器问题";
             saveLog(LocalTime.now() + temp);
             sendMessage.send_email(temp);
             // System.out.println(temp);
@@ -238,7 +238,7 @@ public class Action {
             uuid = jsonObject.get("uuid").getAsString();
         } catch (Exception e) {
             e.printStackTrace();
-            String temp = user.getUSERNAME() + "uuid获取失败, 应该是帐号不存在的问题";
+            String temp = user.getUsername() + "uuid获取失败, 应该是帐号不存在的问题";
             saveLog(LocalTime.now() + temp);
             sendMessage.send_email(temp);
             // System.out.println(temp);
@@ -261,11 +261,11 @@ public class Action {
         HttpURLConnection connection;
         //密码做Base64加密, 小北唯一加密的就是这个
         Base64.Encoder encoder = Base64.getEncoder();
-        String password = encoder.encodeToString(user.getPASSWORD().getBytes());
+        String password = encoder.encodeToString(user.getPassword().getBytes());
         // 创建报文数据, 没错, 小北的报文就是如此简单
         String response =
                 "{" +
-                        "\"username\":\"" + user.getUSERNAME() + "\"," +
+                        "\"username\":\"" + user.getUsername() + "\"," +
                         "\"password\":\"" + password + "\"," +
                         "\"showCode\":\"" + showCode + "\"," +
                         "\"uuid\":\"" + uuid + "\"" + "}";
@@ -276,7 +276,7 @@ public class Action {
             // {"username": "xxxxx", "password": "xxxxx", "uuid": "xxxxx", "showCode": xxxxx}
         } catch (IOException e) {
             e.printStackTrace();
-            String temp = user.getUSERNAME() + "网络问题导致登录失败";
+            String temp = user.getUsername() + "网络问题导致登录失败";
             saveLog(LocalTime.now() + "\t" + temp);
             sendMessage.send_email(temp);
             // System.out.println(temp);
@@ -293,7 +293,7 @@ public class Action {
             msg = String.valueOf(jsonObject.get("msg"));
         }
         if (!code.equals("200")) {
-            String temp = user.getUSERNAME() + "登录失败, 原因: " + msg;
+            String temp = user.getUsername() + "登录失败, 原因: " + msg;
             saveLog(LocalTime.now() + "\t" + temp);
             sendMessage.send_email(temp);
             // System.out.println(temp);
@@ -315,7 +315,7 @@ public class Action {
         healthJson = getHealth();
         if (healthJson == null || healthJson.isEmpty()) {
             // System.out.println(user.getUSERNAME() + "健康信息获取失败");
-            saveLog(LocalTime.now() + "\t" + user.getUSERNAME() + "健康信息获取失败");
+            saveLog(LocalTime.now() + "\t" + user.getUsername() + "健康信息获取失败");
             return false;
         }
         // System.out.println(user.getPLACE());
@@ -338,14 +338,14 @@ public class Action {
         // 成功 return {'msg': '操作成功', 'code': 200}
         // 失败 {'msg': "xxxxx", 'code': 500}
         if (!code.equals("200")) {
-            String temp = user.getUSERNAME() + "打卡失败, 失败原因: " + msg;
+            String temp = user.getUsername() + "打卡失败, 失败原因: " + msg;
             saveLog(LocalTime.now() + "\t" + temp);
             sendMessage.send_email(temp);
             // System.out.println(temp);
             return false;
         }
         String temp = "打卡成功!!!" + msg;
-        saveLog(LocalTime.now() + "\t" + user.getUSERNAME() + temp);
+        saveLog(LocalTime.now() + "\t" + user.getUsername() + temp);
         sendMessage.send_email(temp);
         // System.out.println(temp);
         return true;
@@ -364,14 +364,14 @@ public class Action {
         try {
             // 设置请求头, java设置请求头非常麻烦, 害
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("user-agent", header.getUserAgent());
+            connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("acceptLanguage", header.getAcceptLanguage());
-            connection.setRequestProperty("acceptEncoding", header.getAcceptEncoding());
+            connection.setRequestProperty("acceptLanguage", header.getAccept_language());
+            connection.setRequestProperty("acceptEncoding", header.getAccept_encoding());
             if (authorization != null && !authorization.isEmpty()) {
                 connection.setRequestProperty("authorization", authorization);
             }
-            connection.setRequestProperty("content-type", header.getContentType());
+            connection.setRequestProperty("content-type", header.getContent_type());
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.connect();
@@ -391,9 +391,9 @@ public class Action {
     }
 
     public boolean begin() {
-        if (user.getUSERNAME() == null || user.getUSERNAME().isEmpty()
-                || user.getLOCATION() == null || user.getLOCATION().isEmpty()
-                || user.getPASSWORD() == null || user.getPASSWORD().isEmpty()) {
+        if (user.getUsername() == null || user.getUsername().isEmpty()
+                || user.getLocation() == null || user.getLocation().isEmpty()
+                || user.getPassword() == null || user.getPassword().isEmpty()) {
             return false;
         }
         if (!verify()) {

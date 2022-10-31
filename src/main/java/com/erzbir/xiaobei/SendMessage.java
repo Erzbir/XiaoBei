@@ -53,8 +53,8 @@ public class SendMessage {
                 || key == null
                 || key.isEmpty()
                 || user == null
-                || user.getACCEPT_EMAIL() == null
-                || user.getACCEPT_EMAIL().isEmpty()
+                || user.getEmail() == null
+                || user.getEmail().isEmpty()
                 || host == null
                 || host.isEmpty()) {
             System.out.println("邮件推送必要属性为空");
@@ -84,7 +84,7 @@ public class SendMessage {
                 e.printStackTrace();
             }
             message.setFrom(new InternetAddress(nick + "<" + sender + ">"));
-            InternetAddress to = new InternetAddress(user.getACCEPT_EMAIL());
+            InternetAddress to = new InternetAddress(user.getEmail());
             message.setRecipient(Message.RecipientType.TO, to);
             message.setSubject("自动打卡反馈");
             message.setContent(content, "text/plain;charset=UTF-8");

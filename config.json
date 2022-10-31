@@ -1,25 +1,25 @@
 {
   "head": [
     {
-      "user-agent": "",
+      "user_agent": "",
       "accept": "*/*",
-      "accept-language": "zh-cn",
-      "accept-encoding": "gzip, deflate, br",
-      "content-type": "application/json;charset=UTF-8"
+      "accept_language": "zh-cn",
+      "accept_encoding": "gzip, deflate, br",
+      "content_type": "application/json;charset=UTF-8"
     },
     {
-      "user-agent": "",
+      "user_agent": "",
       "accept": "*/*",
-      "accept-language": "zh-cn",
-      "accept-encoding": "gzip, deflate, br",
-      "content-type": "application/json;charset=UTF-8"
+      "accept_language": "zh-cn",
+      "accept_encoding": "gzip, deflate, br",
+      "content_type": "application/json;charset=UTF-8"
     },
     {
-      "user-agent": "",
+      "user_agent": "",
       "accept": "*/*",
-      "accept-language": "zh-cn",
-      "accept-encoding": "gzip, deflate, br",
-      "content-type": "application/json;charset=UTF-8"
+      "accept_language": "zh-cn",
+      "accept_encoding": "gzip, deflate, br",
+      "content_type": "application/json;charset=UTF-8"
     }
   ],
   "user": [
