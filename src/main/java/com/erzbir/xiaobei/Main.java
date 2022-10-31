@@ -76,6 +76,8 @@ public class Main {
             try {
                 if (threads.begin()) {
                     System.out.println("上报成功");
+                } else {
+                    System.out.println("上报失败");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
