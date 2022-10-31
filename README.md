@@ -14,7 +14,8 @@
 
 GitHub Action实现自动运行或者在电脑上设置定时任务启动脚本
 
-GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下, 使用此分支版本请现将ActionStream.yml文件中的: branches: [ master ] 改成 branches: [ stand ]
+GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下, 使用此分支版本请现将ActionStream.yml文件中的:
+branches: [ master ] 改成 branches: [ stand ]
 
 $不是对应学校的无法登录, 但是你可以仿造报文来运行$
 
