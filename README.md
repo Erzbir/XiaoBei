@@ -14,10 +14,7 @@
 
 GitHub Action实现自动运行或者在电脑上设置定时任务启动脚本
 
-GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下, 使用此分支版本请现将ActionStream.yml文件中的:
-branches: [ master ] 改成 branches: [ stand ]
-
-$不是对应学校的无法登录, 但是你可以仿造报文来运行$
+GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下
 
 使用非常简单
 
@@ -30,7 +27,7 @@ $不是对应学校的无法登录, 但是你可以仿造报文来运行$
 5. 如果不会提交github, 找个教程看就好
 
 $补充说明$:
-> 如果你不想创建私人仓库, 可以用在fork下来的本仓库 Settings->Secrets->Dependabot, 设置环境变量, 名字为 KEY(必须,
+> 如果你不想创建私人仓库, 可以用在fork下来的本仓库 Settings->Secrets->actions, 设置环境变量, 名字为 KEY(必须,
 > 会改就自己改名字),
 >
 > 做法: 将整个配置文件内容添加到刚刚设置的KEY
