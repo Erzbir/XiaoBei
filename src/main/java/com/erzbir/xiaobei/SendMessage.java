@@ -54,6 +54,7 @@ public class SendMessage {
             return;
         }
         String account = sender.substring(0, sender.indexOf("@"));
+        System.out.println(key);
         if (account.isEmpty()) {
             System.out.println("邮箱服务帐号为空");
             return;
