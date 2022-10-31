@@ -36,7 +36,6 @@ public class Action {
     public String temp; // 反馈信息
     private User user; // 用户
     private Head header; // 请求头
-    // 以下是服务器返回内容, 用于POST操作
     private String showCode; // 通过verify获得
     private String uuid; // 通过verify获得
     private String healthJson; // 建康信息报文
