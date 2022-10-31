@@ -27,14 +27,17 @@ GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下
 5. 如果不会提交github, 找个教程看就好
 
 $补充说明$:
-> 如果你不想创建私人仓库, 可以用在fork下来的本仓库 Settings->Secrets->actions, 设置环境变量, 名字为 KEY(必须,
-> 会改就自己改名字),
->
-> 做法: 将整个配置文件内容添加到刚刚设置的KEY
->
-> *如果使用环境变量则不要取消System.out.\*()方法的注释(隐私问题)*
->
-> 程序首先获取环境变量的配置, 如果没有(获取值为空)则从config.json中读取配置
+
+- 如果你不想创建私人仓库, 可以用在fork下来的本仓库 Settings->Secrets->actions, 设置环境变量, 名字为 KEY(必须,
+  会改就自己改名字)
+
+  ![actionsecr](https://bloghexofluid.oss-cn-hangzhou.aliyuncs.com/uPic/actionsecr.png)
+
+- 做法: 将整个配置文件内容添加到刚刚设置的KEY
+
+- *如果使用环境变量则不要取消System.out.\*()方法的注释(隐私问题)*
+
+- 程序首先获取环境变量的配置, 如果没有(获取值为空)则从config.json中读取配置
 
 有什么不会的操作可以通过最上面的联系方式找到我
 
