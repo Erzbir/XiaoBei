@@ -114,6 +114,7 @@ public class SendMessage {
                 ", sender='" + sender + '\'' +
                 ", key='" + key + '\'' +
                 ", host='" + host + '\'' +
+                ", msg='" + msg + '\'' +
                 '}';
     }
 }

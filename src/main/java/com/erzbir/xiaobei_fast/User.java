@@ -18,15 +18,14 @@ public class User {
     private String place; // 具体位置信息, 格式为: 中国-四川省-成都市-成华区
     private String email; // 收件邮箱
 
-
     @Override
     public String toString() {
         return "User{" +
-                "USERNAME='" + username + '\'' +
-                ", PASSWORD='" + password + '\'' +
-                ", LOCATION='" + location + '\'' +
-                ", PLACE='" + place + '\'' +
-                ", ACCEPT_EMAIL='" + email + '\'' +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", location='" + location + '\'' +
+                ", place='" + place + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

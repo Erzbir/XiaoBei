@@ -20,11 +20,11 @@ public class Head {
     @Override
     public String toString() {
         return "Head{" +
-                "userAgent='" + user_agent + '\'' +
+                "user_agent='" + user_agent + '\'' +
                 ", accept='" + accept + '\'' +
-                ", acceptLanguage='" + accept_language + '\'' +
-                ", acceptEncoding='" + accept_encoding + '\'' +
-                ", contentType='" + content_type + '\'' +
+                ", accept_language='" + accept_language + '\'' +
+                ", accept_encoding='" + accept_encoding + '\'' +
+                ", content_type='" + content_type + '\'' +
                 '}';
     }
 }
