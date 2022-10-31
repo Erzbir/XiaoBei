@@ -42,8 +42,6 @@ public class Threads {
         report = new Thread(futureTask);
         getHealth = new Thread(() -> {
             try {
-                verify.join();
-                login.join();
                 getPlace.join();
                 action.getHealth();
             } catch (InterruptedException e) {
