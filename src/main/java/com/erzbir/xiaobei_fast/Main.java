@@ -23,7 +23,7 @@ public class Main {
             JsonArray userJsonArray;
             JsonArray headJsonArray;
             String s = System.getenv("YOUR_KEY");
-            if (s == null || s.isEmpty()) {
+            if (s == null) {
                 jsonObject = JsonParser.parseReader(new FileReader("config.json")).getAsJsonObject();
             } else {
                 jsonObject = JsonParser.parseString(s).getAsJsonObject();

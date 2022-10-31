@@ -72,11 +72,14 @@ public class Threads {
     }
 
     public boolean begin() throws ExecutionException, InterruptedException {
+        long a = System.currentTimeMillis();
         save.setPriority(1);
         send.setPriority(1);
-        verify.setPriority(4);
-        getPlace.setPriority(4);
-        getPlace.setPriority(4);
+        verify.setPriority(3);
+        getPlace.setPriority(5);
+        getHealth.setPriority(4);
+        login.setPriority(2);
+        report.setPriority(2);
         verify.start();
         login.start();
         report.start();
@@ -90,6 +93,7 @@ public class Threads {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(System.currentTimeMillis() - a);
         return futureTask.get();
         // System.out.println(user.getUSERNAME() + "操作完成");
     }

@@ -243,7 +243,7 @@ public class Action {
      */
     void logIn() {
         try {
-            if (showCode == null || showCode.isEmpty() || uuid == null || uuid.isEmpty()) {
+            if (showCode == null || uuid == null) {
                 return;
             }
             HttpURLConnection connection;
@@ -299,7 +299,7 @@ public class Action {
      */
     boolean report() {
         try {
-            if (healthJson == null || healthJson.isEmpty()) {
+            if (healthJson == null) {
                 // System.out.println(user.getUSERNAME() + "健康信息获取失败");
                 temp = LocalTime.now() + "\t" + user.getUsername() + "健康信息获取失败";
                 return false;
@@ -377,7 +377,7 @@ public class Action {
     }
 
     public void saveLog() {
-        if (temp == null || temp.isEmpty()) {
+        if (temp == null) {
             return;
         }
         FileWriter fw = null;

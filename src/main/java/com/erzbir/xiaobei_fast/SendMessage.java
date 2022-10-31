@@ -80,7 +80,7 @@ public class SendMessage {
             InternetAddress to = new InternetAddress(user.getEmail());
             message.setRecipient(Message.RecipientType.TO, to);
             message.setSubject("自动打卡反馈");
-            if (msg == null) {
+            if (msg == null || msg.isEmpty()) {
                 System.out.println("推送信息为空");
                 return;
             }
