@@ -23,4 +23,4 @@ jobs:
         env:
           # 必填
           YOUR_KEY: ${{ secrets.KEY }}
-        run: mvn compile exec:java -Dexec.mainClass="com.erzbir.xiaobei.Main"
+        run: mvn compile exec:java -Dexec.mainClass="com.erzbir.xiaobei_fast.Main"

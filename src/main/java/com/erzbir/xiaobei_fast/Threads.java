@@ -1,4 +1,4 @@
-package com.erzbir.xiaobei;
+package com.erzbir.xiaobei_fast;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

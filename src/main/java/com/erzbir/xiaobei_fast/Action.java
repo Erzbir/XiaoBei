@@ -1,4 +1,4 @@
-package com.erzbir.xiaobei;
+package com.erzbir.xiaobei_fast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

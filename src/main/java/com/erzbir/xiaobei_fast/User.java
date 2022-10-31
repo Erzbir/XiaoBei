@@ -1,4 +1,4 @@
-package com.erzbir.xiaobei;
+package com.erzbir.xiaobei_fast;
 
 import lombok.Getter;
 import lombok.Setter;
