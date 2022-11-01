@@ -318,6 +318,13 @@ public class Action {
         String code;
         String msg;
         {
+            if (res == null) {
+                try {
+                    res = post(connection, healthJson);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             JsonObject jsonObject = JsonParser.parseString(res).getAsJsonObject();
             code = jsonObject.get("code").getAsString();
             msg = jsonObject.get("msg").getAsString();
