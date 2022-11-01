@@ -72,7 +72,6 @@ public class Threads {
     }
 
     public boolean begin() throws ExecutionException, InterruptedException {
-        long a = System.currentTimeMillis();
         save.setPriority(1);
         send.setPriority(1);
         verify.setPriority(3);
@@ -93,7 +92,6 @@ public class Threads {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(System.currentTimeMillis() - a);
         return futureTask.get();
         // System.out.println(user.getUSERNAME() + "操作完成");
     }
