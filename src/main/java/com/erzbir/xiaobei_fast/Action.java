@@ -144,7 +144,7 @@ public class Action {
     void getHealth() {
         String place = user.getPlace();
         if (place == null || place.isEmpty()) {
-            // System.out.println("获取位置信息失败");
+            System.out.println("获取位置信息失败");
             temp = LocalTime.now() + "  " + user.getUsername() + "获取位置信息失败";
             sendMessage.setMsg(temp);
             return;
@@ -198,7 +198,7 @@ public class Action {
             connection.connect();
             if (connection.getResponseCode() != 200) {
                 temp = LocalTime.now() + "  " + user.getUsername() + "验证码获取失败";
-                // System.out.println(temp);
+                System.out.println("验证码获取失败");
                 return;
             }
             in = connection.getInputStream();
@@ -212,7 +212,7 @@ public class Action {
         } catch (IOException e) {
             e.printStackTrace();
             temp = LocalTime.now() + "  " + user.getUsername() + "网络或服务器问题";
-            // System.out.println(temp);
+            System.out.println("网络或服务器问题");
 
         } finally {
             sendMessage.setMsg(temp);
@@ -228,7 +228,7 @@ public class Action {
         } catch (Exception e) {
             e.printStackTrace();
             temp = LocalTime.now() + "  " + user.getUsername() + "uuid获取失败, 应该是帐号不存在的问题";
-            // System.out.println(temp);
+            System.out.println("uuid获取失败, 应该是帐号不存在的问题");
             return;
         } finally {
             sendMessage.setMsg(temp);
@@ -265,7 +265,7 @@ public class Action {
             } catch (IOException e) {
                 e.printStackTrace();
                 temp = LocalTime.now() + "  " + user.getUsername() + "网络问题导致登录失败";
-                // System.out.println(temp);
+                System.out.println("网络问题导致登录失败");
                 return;
             }
             // 成功 {"msg":"操作成功","code":200,"token":"xxxx"}
@@ -280,7 +280,7 @@ public class Action {
             }
             if (!code.equals("200")) {
                 temp = LocalTime.now() + "  " + user.getUsername() + "登录失败, 原因: " + msg;
-                // System.out.println(temp);
+                System.out.println("登录失败, 原因: " + msg);
                 return;
             }
             authorization = jsonObject.get("token").getAsString();
@@ -299,9 +299,10 @@ public class Action {
      */
     boolean report() {
         try {
-            if (healthJson == null) {
+            if (healthJson == null || healthJson.isEmpty()) {
                 // System.out.println(user.getUSERNAME() + "健康信息获取失败");
                 temp = LocalTime.now() + "  " + user.getUsername() + "健康信息获取失败";
+                System.out.println("健康信息获取失败");
                 return false;
             }
             // System.out.println(user.getPLACE());
@@ -325,10 +326,12 @@ public class Action {
             // 失败 {'msg': "xxxxx", 'code': 500}
             if (!code.equals("200")) {
                 temp = LocalTime.now() + "  " + user.getUsername() + "打卡失败, 失败原因: " + msg;
+                System.out.println("打卡失败, 失败原因:" + msg);
                 // System.out.println(temp);
                 return false;
             }
             temp = LocalTime.now() + "  " + user.getUsername() + "打卡成功!!!" + msg;
+            System.out.println("打卡成功!!!" + msg);
         } finally {
             sendMessage.setMsg(temp);
         }
