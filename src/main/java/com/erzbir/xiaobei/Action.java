@@ -148,7 +148,7 @@ public class Action {
             user.setPlace(place = getPlace());
         }
         if (place == null || place.isEmpty()) {
-            // System.out.println("获取位置信息失败");
+            System.out.println("获取位置信息失败");
             temp = LocalTime.now() + "  " + user.getUsername() + "获取位置信息失败";
             return null;
         }
@@ -202,7 +202,7 @@ public class Action {
             connection.connect();
             if (connection.getResponseCode() != 200) {
                 temp = LocalTime.now() + "  " + user.getUsername() + "验证码获取失败";
-                // System.out.println(temp);
+                System.out.println("验证码获取失败");
                 return false;
             }
             in = connection.getInputStream();
@@ -216,7 +216,7 @@ public class Action {
         } catch (IOException e) {
             e.printStackTrace();
             temp = LocalTime.now() + "  " + user.getUsername() + "网络或服务器问题";
-            // System.out.println(temp);
+            System.out.println("网络或服务器问题");
 
         } finally {
             closeStream(connection, out, in);
@@ -231,7 +231,7 @@ public class Action {
         } catch (Exception e) {
             e.printStackTrace();
             temp = LocalTime.now() + "  " + user.getUsername() + "uuid获取失败, 应该是帐号不存在的问题";
-            // System.out.println(temp);
+            System.out.println("uuid获取失败, 应该是帐号不存在的问题");
             return false;
         }
         showCode = jsonObject.get("showCode").getAsString();
@@ -267,7 +267,7 @@ public class Action {
         } catch (IOException e) {
             e.printStackTrace();
             temp = LocalTime.now() + "  " + user.getUsername() + "网络问题导致登录失败";
-            // System.out.println(temp);
+            System.out.println("网络问题导致登录失败");
             return false;
         }
         // 成功 {"msg":"操作成功","code":200,"token":"xxxx"}
@@ -282,7 +282,7 @@ public class Action {
         }
         if (!code.equals("200")) {
             temp = LocalTime.now() + "  " + user.getUsername() + "登录失败, 原因: " + msg;
-            // System.out.println(temp);
+            System.out.println("登录失败, 原因: " + msg);
             return false;
         }
         authorization = jsonObject.get("token").getAsString();
@@ -302,6 +302,7 @@ public class Action {
         if (healthJson == null) {
             // System.out.println(user.getUSERNAME() + "健康信息获取失败");
             temp = LocalTime.now() + "  " + user.getUsername() + "健康信息获取失败";
+            System.out.println("健康信息获取失败");
             return false;
         }
         // System.out.println(user.getPLACE());
@@ -325,11 +326,11 @@ public class Action {
         // 失败 {'msg': "xxxxx", 'code': 500}
         if (!code.equals("200")) {
             temp = LocalTime.now() + " " + user.getUsername() + "打卡失败, 失败原因: " + msg;
-            // System.out.println(temp);
+            System.out.println("打卡失败, 失败原因: " + msg);
             return false;
         }
         temp = LocalTime.now() + "  " + user.getUsername() + "打卡成功!!!";
-        // System.out.println(temp);
+        System.out.println("打卡成功!!!");
         return true;
     }
 
@@ -343,17 +344,32 @@ public class Action {
         StringBuilder res = new StringBuilder(); // 用于返回得到的数据
         OutputStream httpOut = null;
         BufferedReader httpIn = null;
+        String ua = header.getUser_agent();
+        String accept = header.getAccept();
+        String acc_lan = header.getAccept_language();
+        String acc_en = header.getAccept_encoding();
+        String content_t = header.getContent_type();
         try {
+            if (ua == null || ua.isEmpty()
+                    || accept == null || accept.isEmpty()
+                    || acc_en == null || acc_en.isEmpty()
+                    || acc_lan == null || acc_lan.isEmpty()
+                    || content_t == null || content_t.isEmpty()) {
+                System.out.println("请求头有误");
+                return null;
+            }
             // 设置请求头, java设置请求头非常麻烦, 害
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("user-agent", header.getUser_agent());
-            connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("acceptLanguage", header.getAccept_language());
-            connection.setRequestProperty("acceptEncoding", header.getAccept_encoding());
-            if (authorization != null && !authorization.isEmpty()) {
-                connection.setRequestProperty("authorization", authorization);
+            connection.setRequestProperty("user-agent", ua);
+            connection.setRequestProperty("accept", accept);
+            connection.setRequestProperty("acceptLanguage", acc_lan);
+            connection.setRequestProperty("acceptEncoding", acc_en);
+            if (authorization == null || authorization.isEmpty()) {
+                System.out.println("登陆验证为空");
+                return null;
             }
-            connection.setRequestProperty("content-type", header.getContent_type());
+            connection.setRequestProperty("authorization", authorization);
+            connection.setRequestProperty("content-type", content_t);
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.connect();
