@@ -45,12 +45,12 @@ public class Action {
     public Action(User user, Head header) {
         this.user = user;
         this.header = header;
-        this.sendMessage = new SendMessage(user, Main.jsonObject);
-        this.healthJson = null;
-        this.showCode = null;
-        this.authorization = null;
-        this.uuid = null;
-
+        sendMessage = new SendMessage(user, Main.jsonObject);
+        healthJson = null;
+        showCode = null;
+        authorization = null;
+        uuid = null;
+        temp = null;
     }
 
 
@@ -145,7 +145,7 @@ public class Action {
         String place = user.getPlace();
         if (place == null || place.isEmpty()) {
             // System.out.println("获取位置信息失败");
-            temp = LocalTime.now() + "\t" + user.getUsername() + "获取位置信息失败";
+            temp = LocalTime.now() + "  " + user.getUsername() + "获取位置信息失败";
             sendMessage.setMsg(temp);
             return;
         }
@@ -197,7 +197,7 @@ public class Action {
             connection.setRequestProperty("acceptEncoding", header.getAccept_encoding());
             connection.connect();
             if (connection.getResponseCode() != 200) {
-                temp = LocalTime.now() + "\t" + user.getUsername() + "验证码获取失败";
+                temp = LocalTime.now() + "  " + user.getUsername() + "验证码获取失败";
                 // System.out.println(temp);
                 return;
             }
@@ -211,7 +211,7 @@ public class Action {
             jsonString = out.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            temp = LocalTime.now() + "\t" + user.getUsername() + "网络或服务器问题";
+            temp = LocalTime.now() + "  " + user.getUsername() + "网络或服务器问题";
             // System.out.println(temp);
 
         } finally {
@@ -227,7 +227,7 @@ public class Action {
             uuid = jsonObject.get("uuid").getAsString();
         } catch (Exception e) {
             e.printStackTrace();
-            temp = LocalTime.now() + "\t" + user.getUsername() + "uuid获取失败, 应该是帐号不存在的问题";
+            temp = LocalTime.now() + "  " + user.getUsername() + "uuid获取失败, 应该是帐号不存在的问题";
             // System.out.println(temp);
             return;
         } finally {
@@ -264,7 +264,7 @@ public class Action {
                 // {"username": "xxxxx", "password": "xxxxx", "uuid": "xxxxx", "showCode": xxxxx}
             } catch (IOException e) {
                 e.printStackTrace();
-                temp = LocalTime.now() + "\t" + user.getUsername() + "网络问题导致登录失败";
+                temp = LocalTime.now() + "  " + user.getUsername() + "网络问题导致登录失败";
                 // System.out.println(temp);
                 return;
             }
@@ -279,7 +279,7 @@ public class Action {
                 msg = String.valueOf(jsonObject.get("msg"));
             }
             if (!code.equals("200")) {
-                temp = LocalTime.now() + "\t" + user.getUsername() + "登录失败, 原因: " + msg;
+                temp = LocalTime.now() + "  " + user.getUsername() + "登录失败, 原因: " + msg;
                 // System.out.println(temp);
                 return;
             }
@@ -301,7 +301,7 @@ public class Action {
         try {
             if (healthJson == null) {
                 // System.out.println(user.getUSERNAME() + "健康信息获取失败");
-                temp = LocalTime.now() + "\t" + user.getUsername() + "健康信息获取失败";
+                temp = LocalTime.now() + "  " + user.getUsername() + "健康信息获取失败";
                 return false;
             }
             // System.out.println(user.getPLACE());
@@ -324,11 +324,11 @@ public class Action {
             // 成功 return {'msg': '操作成功', 'code': 200}
             // 失败 {'msg': "xxxxx", 'code': 500}
             if (!code.equals("200")) {
-                temp = LocalTime.now() + "\t" + user.getUsername() + "打卡失败, 失败原因: " + msg;
+                temp = LocalTime.now() + "  " + user.getUsername() + "打卡失败, 失败原因: " + msg;
                 // System.out.println(temp);
                 return false;
             }
-            temp = LocalTime.now() + "\t" + user.getUsername() + "打卡成功!!!" + msg;
+            temp = LocalTime.now() + "  " + user.getUsername() + "打卡成功!!!" + msg;
         } finally {
             sendMessage.setMsg(temp);
         }
