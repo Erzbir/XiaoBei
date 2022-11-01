@@ -14,7 +14,7 @@
 
 GitHub Action实现自动运行或者在电脑上设置定时任务启动脚本
 
-GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下
+GitHub Action的文件已经写好, 不需要自己创建, 在.github目录下, 要使用请先解除ActionStream2.yml内容的注释
 
 使用非常简单
 
