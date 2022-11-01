@@ -1,6 +1,7 @@
 name: xiaobei
 on:
-  push: [ master ]
+  push:
+    branches [ master ]
   # 这里是指定在UTC时间的0点运行, 也就是北京时间8点, 由于延迟并不是准点执行
   schedule:
     - cron: '0 0 * * *'
