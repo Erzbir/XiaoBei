@@ -1,5 +1,6 @@
 name: xiaobei2
 on:
+  push: [ stand ]
   #schedule:
   #  - cron: '0 0 * * *'
 jobs:
