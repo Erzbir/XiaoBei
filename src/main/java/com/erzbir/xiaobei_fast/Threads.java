@@ -83,6 +83,7 @@ public class Threads {
         login.start();
         report.start();
         getHealth.start();
+        getPlace.start();
         send.start();
         save.start();
         try {
