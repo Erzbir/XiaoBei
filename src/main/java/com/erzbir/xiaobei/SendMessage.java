@@ -49,6 +49,7 @@ public class SendMessage {
     public void send_email(String content) {
         if (sender == null
                 || content == null
+                || content.isEmpty()
                 || sender.isEmpty()
                 || key == null
                 || key.isEmpty()

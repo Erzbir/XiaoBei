@@ -11,11 +11,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Head {
-    private String user_agent = null;
-    private String accept = null;
-    private String accept_language = null;
-    private String accept_encoding = null;
-    private String content_type = null;
+    private String user_agent;
+    private String accept;
+    private String accept_language;
+    private String accept_encoding;
+    private String content_type;
 
 
     @Override

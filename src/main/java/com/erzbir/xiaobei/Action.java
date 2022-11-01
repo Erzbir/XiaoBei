@@ -39,22 +39,18 @@ public class Action {
     private String uuid;
     private String healthJson;
     private String authorization;
-
     private SendMessage sendMessage;
-
-    public Action() {
-
-    }
+    private String temp;
 
     public Action(User user, Head header) throws FileNotFoundException {
         this.user = user;
         this.header = header;
-        this.sendMessage = new SendMessage(user, Main.jsonObject);
-        this.healthJson = null;
-        this.showCode = null;
-        this.authorization = null;
-        this.uuid = null;
-
+        sendMessage = new SendMessage(user, Main.jsonObject);
+        healthJson = null;
+        showCode = null;
+        authorization = null;
+        uuid = null;
+        temp = null;
     }
 
     // 将关流抽取成方法
@@ -125,7 +121,7 @@ public class Action {
         } finally {
             closeStream(connection, out, in);
         }
-        if (jsonString == null || jsonString.length() == 0) {
+        if (jsonString == null || jsonString.isEmpty()) {
             return null;
         }
         // 这里用正则匹配json而不是JsonObject, 只是练手, 其他类用了工具
@@ -153,7 +149,7 @@ public class Action {
         }
         if (place == null || place.isEmpty()) {
             // System.out.println("获取位置信息失败");
-            saveLog(LocalTime.now() + user.getUsername() + "获取位置信息失败");
+            temp = LocalTime.now() + "  " + user.getUsername() + "获取位置信息失败";
             return null;
         }
         Random random = new Random();
@@ -205,9 +201,7 @@ public class Action {
             connection.setRequestProperty("acceptEncoding", header.getAccept_encoding());
             connection.connect();
             if (connection.getResponseCode() != 200) {
-                String temp = user.getUsername() + "验证码获取失败";
-                saveLog(LocalTime.now() + temp);
-                sendMessage.send_email(temp);
+                temp = LocalTime.now() + "  " + user.getUsername() + "验证码获取失败";
                 // System.out.println(temp);
                 return false;
             }
@@ -221,9 +215,7 @@ public class Action {
             jsonString = out.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            String temp = user.getUsername() + "网络或服务器问题";
-            saveLog(LocalTime.now() + temp);
-            sendMessage.send_email(temp);
+            temp = LocalTime.now() + "  " + user.getUsername() + "网络或服务器问题";
             // System.out.println(temp);
 
         } finally {
@@ -238,9 +230,7 @@ public class Action {
             uuid = jsonObject.get("uuid").getAsString();
         } catch (Exception e) {
             e.printStackTrace();
-            String temp = user.getUsername() + "uuid获取失败, 应该是帐号不存在的问题";
-            saveLog(LocalTime.now() + temp);
-            sendMessage.send_email(temp);
+            temp = LocalTime.now() + "  " + user.getUsername() + "uuid获取失败, 应该是帐号不存在的问题";
             // System.out.println(temp);
             return false;
         }
@@ -276,9 +266,7 @@ public class Action {
             // {"username": "xxxxx", "password": "xxxxx", "uuid": "xxxxx", "showCode": xxxxx}
         } catch (IOException e) {
             e.printStackTrace();
-            String temp = user.getUsername() + "网络问题导致登录失败";
-            saveLog(LocalTime.now() + "\t" + temp);
-            sendMessage.send_email(temp);
+            temp = LocalTime.now() + "  " + user.getUsername() + "网络问题导致登录失败";
             // System.out.println(temp);
             return false;
         }
@@ -293,9 +281,7 @@ public class Action {
             msg = String.valueOf(jsonObject.get("msg"));
         }
         if (!code.equals("200")) {
-            String temp = user.getUsername() + "登录失败, 原因: " + msg;
-            saveLog(LocalTime.now() + "\t" + temp);
-            sendMessage.send_email(temp);
+            temp = LocalTime.now() + "  " + user.getUsername() + "登录失败, 原因: " + msg;
             // System.out.println(temp);
             return false;
         }
@@ -313,9 +299,9 @@ public class Action {
      */
     private boolean report() {
         healthJson = getHealth();
-        if (healthJson == null || healthJson.isEmpty()) {
+        if (healthJson == null) {
             // System.out.println(user.getUSERNAME() + "健康信息获取失败");
-            saveLog(LocalTime.now() + "\t" + user.getUsername() + "健康信息获取失败");
+            temp = LocalTime.now() + "  " + user.getUsername() + "健康信息获取失败";
             return false;
         }
         // System.out.println(user.getPLACE());
@@ -338,15 +324,11 @@ public class Action {
         // 成功 return {'msg': '操作成功', 'code': 200}
         // 失败 {'msg': "xxxxx", 'code': 500}
         if (!code.equals("200")) {
-            String temp = user.getUsername() + "打卡失败, 失败原因: " + msg;
-            saveLog(LocalTime.now() + "\t" + temp);
-            sendMessage.send_email(temp);
+            temp = LocalTime.now() + " " + user.getUsername() + "打卡失败, 失败原因: " + msg;
             // System.out.println(temp);
             return false;
         }
-        String temp = "打卡成功!!!" + msg;
-        saveLog(LocalTime.now() + "\t" + user.getUsername() + temp);
-        sendMessage.send_email(temp);
+        temp = LocalTime.now() + "  " + user.getUsername() + "打卡成功!!!";
         // System.out.println(temp);
         return true;
     }
@@ -402,8 +384,15 @@ public class Action {
         if (!logIn()) {
             return false;
         }
-        return report();
-        // System.out.println(user.getUSERNAME() + "操作完成");
+        try {
+            if (!report()) {
+                return false;
+            }
+        } finally {
+            sendMessage.send_email(temp);
+            saveLog(temp);
+        }
+        return true;
     }
 
 
