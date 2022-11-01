@@ -364,11 +364,9 @@ public class Action {
             connection.setRequestProperty("accept", accept);
             connection.setRequestProperty("acceptLanguage", acc_lan);
             connection.setRequestProperty("acceptEncoding", acc_en);
-            if (authorization == null || authorization.isEmpty()) {
-                System.out.println("登陆验证为空");
-                return null;
+            if (authorization != null && !authorization.isEmpty()) {
+                connection.setRequestProperty("authorization", authorization);
             }
-            connection.setRequestProperty("authorization", authorization);
             connection.setRequestProperty("content-type", content_t);
             connection.setDoInput(true);
             connection.setDoOutput(true);
