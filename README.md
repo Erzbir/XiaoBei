@@ -47,15 +47,15 @@ $补充说明$:
 
 # 配置文件说明:
 
-place建议手动填
+place建议手动填, 也可以自动, 如果自动出错请手动填
 
 user中的email是收件邮箱, sender_email是发发件邮箱
 
 key是你邮箱的服务, 需要自行去邮箱官网获取, host是服务的域名
 
-如果你不懂请求头, 请尽量不要改head中除"user-agent"的其他内容, 只修改"user-agent"(请求头)即可
+如果你不懂请求头, 请尽量不要改head中除"user_agent"的其他内容, 只修改"user_agent"(请求头)即可
 
-user-agent随便搜索一个填上就行, 最好填手机的吧
+user_agent随便搜索一个填上就行, 最好填手机的吧
 
 ```json
 {
