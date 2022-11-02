@@ -97,9 +97,6 @@ public class Action {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("accept-language", header.getAccept_language());
-            connection.setRequestProperty("accept-encoding", header.getAccept_encoding());
-            connection.setRequestProperty("content-type", header.getContent_type());
             connection.connect();
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,6 +137,10 @@ public class Action {
                 result.append(s).append("-");
             }
         }
+        if (result.isEmpty()) {
+            System.out.println("位置获取失败");
+            return;
+        }
         result.replace(result.length() - 1, result.length(), "");
         user.setPlace(result.toString());
     }
@@ -150,9 +151,7 @@ public class Action {
     void getHealth() {
         String place = user.getPlace();
         if (place == null || place.isEmpty()) {
-            System.out.println("获取位置信息失败");
-            temp = LocalTime.now() + "  " + user.getUsername() + "获取位置信息失败";
-            sendMessage.setMsg(temp);
+            System.out.println("位置信息为空");;
             return;
         }
         Random random = new Random();
@@ -199,8 +198,6 @@ public class Action {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("accept-language", header.getAccept_language());
-            connection.setRequestProperty("accept-encoding", header.getAccept_encoding());
             connection.connect();
             if (connection.getResponseCode() != 200) {
                 temp = LocalTime.now() + "  " + user.getUsername() + "验证码获取失败";
@@ -249,7 +246,7 @@ public class Action {
      */
     void logIn() {
         try {
-            if (showCode == null || uuid == null) {
+            if (showCode == null || showCode.isEmpty() || uuid == null || uuid.isEmpty()) {
                 return;
             }
             HttpURLConnection connection;
