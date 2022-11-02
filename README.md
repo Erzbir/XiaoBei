@@ -60,11 +60,11 @@ user-agent随便搜索一个填上就行, 最好填手机的吧
 {
   "head": [
     {
-      "user-agent": "iPhone13,3(iOS/14.4) Uninview(Uninview/1.0.0) Weex/0.26.0 1125x2436",
+      "user_agent": "iPhone13,3(iOS/14.4) Uninview(Uninview/1.0.0) Weex/0.26.0 1125x2436",
       "accept": "*/*",
-      "accept-language": "zh-cn",
-      "accept-encoding": "gzip, deflate, br",
-      "content-type": "application/json;charset=UTF-8"
+      "accept_language": "zh-cn",
+      "accept_encoding": "gzip, deflate, br",
+      "content_type": "application/json;charset=UTF-8"
     }
   ],
   "user": [
