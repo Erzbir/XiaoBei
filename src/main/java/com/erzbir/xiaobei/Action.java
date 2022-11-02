@@ -184,6 +184,14 @@ public class Action {
 
     private boolean verify() {
         // 滑动验证
+        if (header.getAccept().isEmpty()
+        || header.getAccept_encoding().isEmpty()
+        || header.getUser_agent().isEmpty()
+        || header.getAccept_language().isEmpty()
+        || header.getContent_type().isEmpty()) {
+            temp = LocalTime.now() + "  " + user.getUsername() + "请求头非法";
+            return false;
+        }
         // 开始网络请求(想起python是多么的简单, 当然有第三方包我没下)
         HttpURLConnection connection = null;
         InputStream in = null;
@@ -318,13 +326,6 @@ public class Action {
         String code;
         String msg;
         {
-            if (res == null) {
-                try {
-                    res = post(connection, healthJson);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
             JsonObject jsonObject = JsonParser.parseString(res).getAsJsonObject();
             code = jsonObject.get("code").getAsString();
             msg = jsonObject.get("msg").getAsString();
@@ -351,30 +352,16 @@ public class Action {
         StringBuilder res = new StringBuilder(); // 用于返回得到的数据
         OutputStream httpOut = null;
         BufferedReader httpIn = null;
-        String ua = header.getUser_agent();
-        String accept = header.getAccept();
-        String acc_lan = header.getAccept_language();
-        String acc_en = header.getAccept_encoding();
-        String content_t = header.getContent_type();
         try {
-            if (ua == null || ua.isEmpty()
-                    || accept == null || accept.isEmpty()
-                    || acc_en == null || acc_en.isEmpty()
-                    || acc_lan == null || acc_lan.isEmpty()
-                    || content_t == null || content_t.isEmpty()) {
-                System.out.println("请求头有误");
-                return null;
-            }
-            // 设置请求头, java设置请求头非常麻烦, 害
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("user-agent", ua);
-            connection.setRequestProperty("accept", accept);
-            connection.setRequestProperty("acceptLanguage", acc_lan);
-            connection.setRequestProperty("acceptEncoding", acc_en);
+            connection.setRequestProperty("user-agent", header.getUser_agent());
+            connection.setRequestProperty("accept", header.getAccept());
+            connection.setRequestProperty("accept-language", header.getAccept_language());
+            connection.setRequestProperty("accept-encoding", header.getAccept_encoding());
             if (authorization != null && !authorization.isEmpty()) {
                 connection.setRequestProperty("authorization", authorization);
             }
-            connection.setRequestProperty("content-type", content_t);
+            connection.setRequestProperty("content-type", header.getContent_type());
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.connect();
