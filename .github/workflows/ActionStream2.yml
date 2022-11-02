@@ -1,7 +1,5 @@
 name: xiaobei2
 on:
-  fork:
-    branches: [ stand ]
   push:
     branches: [ stand ]
   #schedule:
