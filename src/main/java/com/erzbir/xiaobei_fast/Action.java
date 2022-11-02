@@ -75,6 +75,9 @@ public class Action {
      * @<code> 坐标为空则不执行, 如果位置为空则根据坐标获取地址 </code>
      */
     void getPlace() {
+        if (user.getPlace() == null && !user.getPlace().isEmpty()) {
+            return;
+        }
         StringBuilder result = new StringBuilder();
         String jsonString;
         ByteArrayOutputStream out = null;

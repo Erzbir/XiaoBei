@@ -25,6 +25,7 @@ public class Threads {
         action = new Action(user, head);
         Callable<Boolean> callable = () -> {
             login.join();
+            getPlace.join();
             getHealth.join();
             return action.report();
         };
