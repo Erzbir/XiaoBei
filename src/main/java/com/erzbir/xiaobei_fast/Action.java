@@ -75,7 +75,7 @@ public class Action {
      * @<code> 坐标为空则不执行, 如果位置为空则根据坐标获取地址 </code>
      */
     void getPlace() {
-        if (user.getPlace() == null && !user.getPlace().isEmpty()) {
+        if (user.getPlace() != null && !user.getPlace().isEmpty()) {
             return;
         }
         StringBuilder result = new StringBuilder();
@@ -97,6 +97,9 @@ public class Action {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
+            connection.setRequestProperty("accept_language", header.getAccept_language());
+            connection.setRequestProperty("accept_encoding", header.getAccept_encoding());
+            connection.setRequestProperty("content_type", header.getContent_type());
             connection.connect();
         } catch (IOException e) {
             e.printStackTrace();
