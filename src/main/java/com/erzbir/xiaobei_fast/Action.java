@@ -97,9 +97,9 @@ public class Action {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("accept_language", header.getAccept_language());
-            connection.setRequestProperty("accept_encoding", header.getAccept_encoding());
-            connection.setRequestProperty("content_type", header.getContent_type());
+            connection.setRequestProperty("accept-language", header.getAccept_language());
+            connection.setRequestProperty("accept-encoding", header.getAccept_encoding());
+            connection.setRequestProperty("content-type", header.getContent_type());
             connection.connect();
         } catch (IOException e) {
             e.printStackTrace();
@@ -199,8 +199,8 @@ public class Action {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("acceptLanguage", header.getAccept_language());
-            connection.setRequestProperty("acceptEncoding", header.getAccept_encoding());
+            connection.setRequestProperty("accept-language", header.getAccept_language());
+            connection.setRequestProperty("accept-encoding", header.getAccept_encoding());
             connection.connect();
             if (connection.getResponseCode() != 200) {
                 temp = LocalTime.now() + "  " + user.getUsername() + "验证码获取失败";
@@ -361,8 +361,8 @@ public class Action {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("acceptLanguage", header.getAccept_language());
-            connection.setRequestProperty("acceptEncoding", header.getAccept_encoding());
+            connection.setRequestProperty("accept-language", header.getAccept_language());
+            connection.setRequestProperty("accept-encoding", header.getAccept_encoding());
             if (authorization != null && !authorization.isEmpty()) {
                 connection.setRequestProperty("authorization", authorization);
             }
