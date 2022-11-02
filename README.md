@@ -44,9 +44,7 @@ $补充说明$:
 
 # 配置文件说明:
 
-user中除了place都是必填(但place标签必须有)
-
-place可以自动获取, 也可以自己填(建议自动获取)
+place建议手动填
 
 user中的email是收件邮箱, sender_email是发发件邮箱
 
