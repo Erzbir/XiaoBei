@@ -1,4 +1,4 @@
-package com.erzbir.xiaobei;
+package com.erzbir.xiaobei_stand;
 
 import com.google.gson.JsonObject;
 import lombok.Getter;
@@ -25,13 +25,6 @@ public class SendMessage {
     private String sender;
     private String key;
     private String host;
-
-    public SendMessage(User user, String sender, String key, String host) {
-        this.user = user;
-        this.sender = sender;
-        this.key = key;
-        this.host = host;
-    }
 
     public SendMessage(User user, JsonObject jsonObject) {
         if (jsonObject == null) {

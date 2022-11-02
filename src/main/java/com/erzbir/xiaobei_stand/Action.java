@@ -1,4 +1,4 @@
-package com.erzbir.xiaobei;
+package com.erzbir.xiaobei_stand;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -205,8 +205,6 @@ public class Action {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("user-agent", header.getUser_agent());
             connection.setRequestProperty("accept", header.getAccept());
-            connection.setRequestProperty("accept-language", header.getAccept_language());
-            connection.setRequestProperty("accept-encoding", header.getAccept_encoding());
             connection.connect();
             if (connection.getResponseCode() != 200) {
                 temp = LocalTime.now() + "  " + user.getUsername() + "验证码获取失败";
