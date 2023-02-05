@@ -24,11 +24,11 @@
   ],
   "user": [
     {
-      "username": "",
-      "password": "",
-      "location": "",
-      "email": "",
-      "place": ""
+      "username": "17387822016",
+      "password": "Sx201314",
+      "location": "103.0161665,25.2403644",
+      "email": "2070859017@qq.com",
+      "place": "中国-云南省-昆明市-嵩明县"
     },
     {
       "username": "",
@@ -45,8 +45,8 @@
       "email": ""
     }
   ],
-  "sender_email": "",
-  "key": "",
-  "host": ""
+  "sender_email": "2070859017@qq.com",
+  "key": "pcvdwqhpjweydhaf",
+  "host": "smtp. qq.com"
 }
 
